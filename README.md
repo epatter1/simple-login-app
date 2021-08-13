@@ -3,7 +3,7 @@
 ## How to run it
 
 Running this command will clone the repo down to your machine
-### `git clone https://github.com/fiserv-coder/coding-challenge.git`
+### `git clone https://github.com/epatter1/simple-login-app.git`
 
 ## In the project directory, you can run:
 
