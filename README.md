@@ -14,9 +14,8 @@ Will install all the necessary modules to get the app running on your local mach
 Installing nodemon allows auto-updates when changes are saved.
 
 ### `nodemon server`
-Will serve the page at port 9999
-
-### `npm start`
+Will serve the register page at port 9999
 
 Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Open [http://localhost:9999/](http://localhost:9999/) to view the register page.\
+Open [http://localhost:9999/login](http://localhost:9999/login.html) to view the login page.
