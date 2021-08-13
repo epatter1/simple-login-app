@@ -16,7 +16,8 @@
 		<script>
 			const form = document.getElementById('login')
 			form.addEventListener('submit', login)
-
+			
+			// POST username and password to Login endpoint
 			async function login(event) {
 				event.preventDefault()
 				const username = document.getElementById('username').value

@@ -14,10 +14,12 @@ mongoose.connect('mongodb://localhost:27017/login-app-db', {
 	useCreateIndex: true
 })
 
+
 const app = express()
 app.use('/', express.static(path.join(__dirname, 'static')))
 app.use(bodyParser.json())
 
+// POST change password server endpoint
 app.post('/api/change-password', async (req, res) => {
 	const { token, newpassword: plainTextPassword } = req.body
 
@@ -52,6 +54,7 @@ app.post('/api/change-password', async (req, res) => {
 	}
 })
 
+// POST login server endpoint
 app.post('/api/login', async (req, res) => {
 	const { username, password } = req.body
 	const user = await User.findOne({ username }).lean()
@@ -60,9 +63,11 @@ app.post('/api/login', async (req, res) => {
 		return res.json({ status: 'error', error: 'Invalid username/password' })
 	}
 
+	// compares password entered with password in User model
 	if (await bcrypt.compare(password, user.password)) {
-		// the username, password combination is successful
+		//the username, password combo is successful
 
+		// creating JWT token and secret
 		const token = jwt.sign(
 			{
 				id: user._id,
@@ -73,10 +78,10 @@ app.post('/api/login', async (req, res) => {
 
 		return res.json({ status: 'ok', data: token })
 	}
-
+	// otherwise, username or password is not valid
 	res.json({ status: 'error', error: 'Invalid username/password' })
 })
-
+// POST register server endpoint
 app.post('/api/register', async (req, res) => {
 	const { username, password: plainTextPassword } = req.body
 
@@ -88,6 +93,7 @@ app.post('/api/register', async (req, res) => {
 		return res.json({ status: 'error', error: 'Invalid password' })
 	}
 
+	// password needs to be at least 5 characters (can be adjusted)
 	if (plainTextPassword.length < 5) {
 		return res.json({
 			status: 'error',
@@ -105,7 +111,7 @@ app.post('/api/register', async (req, res) => {
 		console.log('User created successfully: ', response)
 	} catch (error) {
 		if (error.code === 11000) {
-			// duplicate key
+			// handling duplicate key. No duplicates allowed. No sir.
 			return res.json({ status: 'error', error: 'Username already in use' })
 		}
 		throw error
@@ -114,6 +120,7 @@ app.post('/api/register', async (req, res) => {
 	res.json({ status: 'ok' })
 })
 
+// listen on port 9999
 app.listen(9999, () => {
 	console.log('Server up at 9999')
 })
